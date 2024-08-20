@@ -49,13 +49,13 @@ def read_csv():
     users = []
     with open("sample_users.csv","r") as f:
         data = csv.reader(f)
-        for users in data:
-            users.append(tuple(users))
+        for user in data:
+            users.append(tuple(user))
 
     return users[1:]
     
 def insert_users(con,users):
-    users_add_query = """
+    user_add_query = """
         INSERT INTO users
         (
             first_name,
@@ -74,7 +74,7 @@ def insert_users(con,users):
         VALUES(?,?,?,?,?,?,?,?,?,?,?,?);
     """
     cur = con.cursor()
-    cur.executemany(users_add_query, users)
+    cur.executemany(user_add_query, users)
     con.commit()
     print(f"{len(users)} users were imported successfully.")
 
@@ -84,9 +84,7 @@ def main():
     if user_input == "1":
         create_table(con)
     elif user_input == "2":
-        read_csv()
         users = read_csv()
         insert_users(con,users)
 
-main()
 
